@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Release tag (e.g. v0.3.1-test). Leave empty to use timestamp tag"
+        required: false
+        default: ""
 
 jobs:
   build:
@@ -36,6 +42,7 @@ jobs:
       - name: GH Release
         uses: softprops/action-gh-release@v2
         with:
-          name: 曦码·曜 ${{ github.ref_name }}
-          draft: true
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && (inputs.tag_name != '' && inputs.tag_name || format('nightly-{0}', github.run_number)) || github.ref_name }}
+          name: 曦码·曜 ${{ github.event_name == 'workflow_dispatch' && (inputs.tag_name != '' && inputs.tag_name || format('nightly-{0}', github.run_number)) || github.ref_name }}
+          draft: ${{ github.event_name == 'workflow_dispatch' }}
           files: dist/*

@@ -110,7 +110,7 @@ jobs:
           if not exist "target\wix" mkdir "target\wix"
           heat dir "target\release\data" -o "crates\winxime-server\wix\data.wxs" -dr DataFolder -cg DataFiles -var var.DataDir -sreg -srd -ag
           heat dir "target\release\resources" -o "crates\winxime-server\wix\resources.wxs" -dr ResourcesFolder -cg ResourcesFiles -var var.ResourcesDir -sreg -srd -ag
-          candle -arch x64 "crates\winxime-server\wix\main.wxs" "crates\winxime-server\wix\data.wxs" "crates\winxime-server\wix\resources.wxs" -ext WixUIExtension -ext WixUtilExtension "-dCargoTargetBinDir=target\release" "-dDataDir=target\release\data" "-dResourcesDir=target\release\resources" "-dVersion=%VERSION%" -out "target\wix\" 2>&1
+          candle -arch x64 "crates\winxime-server\wix\main.wxs" "crates\winxime-server\wix\data.wxs" "crates\winxime-server\wix\resources.wxs" -ext WixUIExtension -ext WixUtilExtension "-dCargoTargetBinDir=target\release" "-dDataDir=target\release\data" "-dResourcesDir=target\release\resources" "-dVersion=%VERSION%" -out "target\wix\\" 2>&1
           light "target\wix\main.wixobj" "target\wix\data.wixobj" "target\wix\resources.wixobj" -ext WixUIExtension -ext WixUtilExtension -cultures:zh-CN -loc "crates\winxime-server\wix\zh-cn.wxl" -out "target\wix\xime-%VERSION%.msi" 2>&1
 
       - name: Build MSIX
